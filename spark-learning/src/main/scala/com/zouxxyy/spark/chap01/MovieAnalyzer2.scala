@@ -105,21 +105,112 @@ object MovieAnalyzer2 {
     val sql_local = "SELECT Gender, Age, count(*) from users u join ratings as r on u.UserID = r.UserID where MovieID = 1193 group by Gender, Age"
     spark.sql(sql_local).show(10)
 
+    /**
+      用 LocalTempView 实现某部电影观看荷中不同性别不同年龄分别有多少人
+      +------+---+--------+
+      |Gender|Age|count(1)|
+      +------+---+--------+
+      |     F| 45|      55|
+      |     M| 50|     102|
+      |     M|  1|      26|
+      |     F| 56|      39|
+      |     F| 50|      43|
+      |     F| 18|      57|
+      |     F|  1|      10|
+      |     M| 18|     192|
+      |     F| 25|     140|
+      |     M| 45|     136|
+      +------+---+--------+
+      */
 
     /**
-      * 案例三：引入一个隐式转换来实现
+      * 案例三：隐式转换、与DataFrame和RDD混编
       */
+
+    // 隐式转换
     import spark.sqlContext.implicits._ // 还有这种操作？
     ratingsDataFrame.select("MovieID", "Rating")
       .groupBy("MovieID").avg("Rating")
       .orderBy($"avg(Rating)".desc)
       .show(10)
 
+    /**
+      +-------+-----------+
+      |MovieID|avg(Rating)|
+      +-------+-----------+
+      |   3382|        5.0|
+      |   3172|        5.0|
+      |   3881|        5.0|
+      |   3233|        5.0|
+      |   3280|        5.0|
+      |    787|        5.0|
+      |   3656|        5.0|
+      |   3607|        5.0|
+      |    989|        5.0|
+      |   1830|        5.0|
+      +-------+-----------+
+      only showing top 10 rows
+      */
+
+    // DataFrame和RDD混编
+    ratingsDataFrame.select("MovieID", "Rating")
+      .groupBy("MovieID").avg("Rating") // (MovieID, avg(Rating))
+      .rdd.map(row => (row(1), row(0), row(1))) // (avg(Rating), MovieID, avg(Rating))
+      .sortBy(_._1.toString.toDouble, false)
+      .map(tuple => tuple._2)
+      .collect.take(10).foreach(println)
+
+    /**
+      3656
+      3280
+      989
+      787
+      3607
+      3172
+      3233
+      3881
+      1830
+      3382
+      */
+
+    /**
+      * 案例四：通过 DataSet 实战电影点评系统案例
+      */
+
+    import spark.implicits._
+
+    case class User(UserID:String, Gender: String, Age: String, OccupationID: String, Zip_Code: String)
+    case class Rating(UserID:String, MovieID: String, Rating:Double, Timestamp: String)
+
+    // 先把数据封装进具体类，再直接创建DataSet
+
+//    val usersForDSRDD = usersRDD.map(_.split("::"))
+//      .map(line => User(line(0).trim, line(1).trim, line(2).trim, line(3).trim, line(4).trim))
+//    val usersDataSet = spark.createDataset[User](usersForDSRDD) // 方式1
+//
+//    val usersDataSet = usersDataFrame.as[User] // 方式2
+//    usersDataSet.show(10)
+//
+//    val ratingsForDSRDD = ratingsRDD.map(_.split("::"))
+//      .map(line => Rating(line(0).trim, line(1).trim, line(2).trim.toDouble, line(3).trim))
+//    val ratingsDataSet = spark.createDataset[Rating](ratingsForDSRDD)
+//
+//    ratingsDataSet.filter(s" MovieID = 1193").join(usersDataSet, "UserID")
+//      .select("Gender", "Age").groupBy("Gender", "Age").count()
+//      .orderBy($"Gender".desc, $"Age").show()
+
+
+    /**
+      Error:(188, 49) Unable to find encoder for type User. An implicit Encoder[User] is needed to store User instances in a Dataset. Primitive types (Int, String, etc) and Product types (case classes) are supported by importing spark.implicits._  Support for serializing other types will be added in future releases.
+      val usersDataSet = spark.createDataset[User](usersForDSRDD)
+      不知道什么原因，学完后面再来看看
+      */
 
 
 
 
 
+    spark.stop()
 
   }
 }
