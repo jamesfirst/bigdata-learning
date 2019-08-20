@@ -5,6 +5,10 @@ import org.apache.spark.{SparkConf, SparkContext}
 
 import scala.collection.immutable.HashSet
 
+/**
+  * 第12章：大数据电影点评系统应用案例
+  */
+
 object Movie_Users_Analyzer_RDD {
 
   def main(args: Array[String]): Unit = {
