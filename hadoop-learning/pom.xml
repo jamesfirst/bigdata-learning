@@ -7,6 +7,18 @@
     <groupId>com.zouxxyy</groupId>
     <artifactId>hadoop-learning</artifactId>
     <version>1.0-SNAPSHOT</version>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>8</source>
+                    <target>8</target>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 
     <properties>
         <hadoop.version>2.7.7</hadoop.version>
@@ -27,8 +39,8 @@
         </dependency>
         <dependency>
             <groupId>org.apache.logging.log4j</groupId>
-            <artifactId>log4j</artifactId>
-            <version>2.6.2</version>
+            <artifactId>log4j-core</artifactId>
+            <version>2.8.2</version>
         </dependency>
         <dependency>
             <groupId>org.apache.hadoop</groupId>
