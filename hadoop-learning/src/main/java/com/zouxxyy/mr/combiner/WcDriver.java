@@ -12,6 +12,10 @@ import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 
 import java.io.IOException;
 
+/**
+ * 测试Combiner
+ */
+
 public class WcDriver {
 
     public static void main(String[] args) throws IOException, ClassNotFoundException, InterruptedException {
