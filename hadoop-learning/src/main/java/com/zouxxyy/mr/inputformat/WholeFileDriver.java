@@ -15,7 +15,7 @@ public class WholeFileDriver {
 
     public static void main(String[] args) throws IOException, ClassNotFoundException, InterruptedException {
 
-        args = new String[] { "data/inputFormat", "data/output" };
+        args = new String[] { "data/input/inputFormat", "data/output" };
 
         // 1 获取Job对象
         Job job = Job.getInstance(new Configuration());

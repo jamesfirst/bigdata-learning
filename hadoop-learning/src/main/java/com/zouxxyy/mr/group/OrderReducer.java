@@ -12,7 +12,7 @@ public class OrderReducer extends Reducer<OrderBean, NullWritable, OrderBean, Nu
     @Override
     protected void reduce(OrderBean key, Iterable<NullWritable> values, Context context) throws IOException, InterruptedException {
 
-        // 有2个空对象，开始时默认存该组第一个(k,v)的反序列值，接着每执行一次iterator.next()，会序列化下一对(k,v)写入空对象中
+        // 有2个空对象，开始时默认存该组第一个(k,v)的反序列值，执行一次iterator.next()，会序列化下一对(k,v)写入空对象中，第一次执行仍然是第一对
         // 一直只有两个对象，只是不断在反序列写入
 
         // 由于是该组第一个，已经序列化好，可以直接写入context中

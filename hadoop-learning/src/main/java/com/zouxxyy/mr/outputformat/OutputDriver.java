@@ -11,7 +11,7 @@ import java.io.IOException;
 public class OutputDriver {
     public static void main(String[] args) throws IOException, ClassNotFoundException, InterruptedException {
 
-        args = new String[] { "data/inputOutputFormat", "data/output" };
+        args = new String[] { "data/input/outputFormat", "data/output" };
 
         Job job = Job.getInstance(new Configuration());
 

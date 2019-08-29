@@ -18,7 +18,7 @@ import java.io.IOException;
 public class OrderDriver {
     public static void main(String[] args) throws IOException, ClassNotFoundException, InterruptedException {
 
-        args = new String[] { "data/inputGroup", "data/output" };
+        args = new String[] { "data/input/group", "data/output" };
 
         // 1 获取Job对象
         Job job = Job.getInstance(new Configuration());

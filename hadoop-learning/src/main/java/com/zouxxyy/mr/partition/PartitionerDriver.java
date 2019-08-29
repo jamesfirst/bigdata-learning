@@ -16,7 +16,7 @@ import java.io.IOException;
 public class PartitionerDriver {
     public static void main(String[] args) throws IOException, ClassNotFoundException, InterruptedException {
 
-        args = new String[] { "data/inputFlow", "data/output" };
+        args = new String[] { "data/input/flow", "data/output" };
 
         // 1 获取Job对象
         Job job = Job.getInstance(new Configuration());

@@ -31,7 +31,7 @@ public class HDFSClient {
         fs = FileSystem.get(URI.create("hdfs://localhost:9000"), configuration, "zxy");
 
         // 本地文件上传到HDFS
-        fs.copyFromLocalFile(new Path("data/inputWordCount/1.txt"), new Path("/"));
+        fs.copyFromLocalFile(new Path("data/input/wordCount/1.txt"), new Path("/"));
     }
 
     @Test
@@ -66,7 +66,7 @@ public class HDFSClient {
 
         // HDFS 文件追加测试
         FSDataOutputStream append = fs.append(new Path("/1.txt"), 1024);
-        FileInputStream open = new FileInputStream("data/inputWordCount/1.txt");
+        FileInputStream open = new FileInputStream("data/input/wordCount/1.txt");
         IOUtils.copyBytes(open, append, 1024, true);
     }
 
