@@ -18,7 +18,7 @@ public class WcDriver {
 
     public static void main(String[] args) throws IOException, ClassNotFoundException, InterruptedException {
 
-        args = new String[] { "data/input/wordCount", "data/output" };
+        args = new String[] { "data/input/wordCount/1.txt", "data/output" };
 
         // 1 获取Job对象
         Job job = Job.getInstance(new Configuration());
