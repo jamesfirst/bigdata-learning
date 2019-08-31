@@ -1,4 +1,7 @@
 # hadoop的学习
+
+学习资源：
+
 - 尚硅谷 hadoop2019的视频学习
 - b站： av64039568
 
@@ -8,3 +11,5 @@
 我的总结：
 
 - [MapReduce流程解析](https://zouxxyy.github.io/2019/08/30/hadoop-MapReduce%E6%B5%81%E7%A8%8B%E8%A7%A3%E6%9E%90/#more)
+- [HDFS流程解析](https://zouxxyy.github.io/2019/08/31/hadoop-HDFS%E6%B5%81%E7%A8%8B%E8%A7%A3%E6%9E%90/#more)
+- [Yarn流程解析](https://zouxxyy.github.io/2019/08/31/hadoop-Yarn%E6%B5%81%E7%A8%8B%E8%A7%A3%E6%9E%90/#more)
