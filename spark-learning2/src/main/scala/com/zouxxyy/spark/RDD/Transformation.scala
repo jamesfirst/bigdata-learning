@@ -11,7 +11,7 @@ object Transformation {
 
   def main(args: Array[String]): Unit = {
 
-    val config: SparkConf = new SparkConf().setMaster("local[*]").setAppName("RDDOper")
+    val config: SparkConf = new SparkConf().setMaster("local[*]").setAppName("Transformation")
 
     val sc = new SparkContext(config)
 
@@ -148,6 +148,8 @@ object Transformation {
     val pairRDD1: RDD[(Int, String)] = sc.parallelize(Array((1, "aa"), (1, "bb"), (3, "cc"), (3, "dd")),  4)
     val pairRDD2: RDD[(String, Int)] = sc.parallelize(Array(("a", 3), ("a", 2), ("c", 4),
                                                             ("b", 3), ("c", 6), ("c", 8)),  2)
+    val pairRDD3: RDD[(Int, String)] = sc.parallelize(Array((1, "zzz"), (3, "xxx")))
+
     /**
       * partitionBy(partitioner: Partitioner)
       * 按照分区器进行分区
@@ -218,11 +220,44 @@ object Transformation {
       */
 
     // 计算相同key的value的均值
-    pairRDD2.combineByKey(
-      (_, 1),
-      (acc:(Int, Int), v) => (acc._1 + v, acc._2 + 1),
-      (acc1:(Int, Int), acc2:(Int, Int)) => (acc1._1 + acc2._1, acc1._2 + acc2._2))
-      .map{case (key, value) => (key, value._1 / value._2.toDouble)}
+//    pairRDD2.combineByKey(
+//      (_, 1),
+//      (acc:(Int, Int), v) => (acc._1 + v, acc._2 + 1),
+//      (acc1:(Int, Int), acc2:(Int, Int)) => (acc1._1 + acc2._1, acc1._2 + acc2._2))
+//      .map{case (key, value) => (key, value._1 / value._2.toDouble)}
+//      .collect().foreach(println)
+
+    /**
+      * sortByKey(ascending: Boolean = true, numPartitions: Int = self.partitions.length)
+      * 按key排序
+      */
+
+//    pairRDD1.sortByKey(true)
+//      .collect().foreach(println)
+
+
+    /**
+      * mapValues(func)
+      * 只对value做转换
+      */
+
+//    pairRDD1.mapValues(value => value + "|||")
+//      .collect().foreach(println)
+
+    /**
+      * A.join(B, numP)
+      * 把key相同的value组合在一起(性能较低)
+      */
+
+//    pairRDD1.join(pairRDD3)
+//      .collect().foreach(println)
+
+    /**
+      * A.cogroup(B)
+      * （k, v1） 和 （k, v2）cogroup 后，得到（k, v1集合，v2集合）
+      */
+
+    pairRDD1.cogroup(pairRDD3)
       .collect().foreach(println)
 
   }
